@@ -1,0 +1,15 @@
+.env
+.env.*
+.local/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.auto.tfvars
+*.auto.tfvars.json
+*.pem
+*.key
+crash.log
+node_modules/
+coverage/
+*.log
