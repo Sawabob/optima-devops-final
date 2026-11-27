@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Навчальні дедлайни</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Навчальні дедлайни</h1>
+      <p>Додавайте завдання та відстежуйте строки здачі.</p>
+    </header>
+    <section class="panel" aria-labelledby="add-title">
+      <h2 id="add-title">Нове завдання</h2>
+      <form id="entry-form">
+        <label>Назва<input name="title" type="text" maxlength="100" required></label>
+        <label>Термін здачі<input name="deadline" type="date" min="1900-01-01" max="9999-12-31" required></label>
+        <button type="submit">Додати</button>
+      </form>
+      <p id="save-warning" hidden role="status">Браузер не зміг зберегти зміни. Дані доступні до закриття сторінки.</p>
+    </section>
+    <section class="panel" aria-labelledby="list-title">
+      <div class="list-header">
+        <h2 id="list-title">Завдання</h2>
+        <p id="summary" aria-live="polite"></p>
+      </div>
+      <p id="empty">Поки що завдань немає.</p>
+      <ul id="tasks"></ul>
+    </section>
+  </main>
+</body>
+</html>
