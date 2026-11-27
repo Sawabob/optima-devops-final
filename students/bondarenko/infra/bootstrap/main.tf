@@ -68,9 +68,9 @@ resource "aws_iam_user" "ci" {
   name = "optima-devops-final-ci"
 }
 
-resource "aws_iam_user_policy" "ci" {
-  name = "study-board-deploy"
-  user = aws_iam_user.ci.name
+resource "aws_iam_policy" "ci" {
+  name        = "optima-devops-final-deploy"
+  description = "Permissions for the dedicated study board CI user"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -155,6 +155,11 @@ resource "aws_iam_user_policy" "ci" {
       }
     ]
   })
+}
+
+resource "aws_iam_user_policy_attachment" "ci" {
+  user       = aws_iam_user.ci.name
+  policy_arn = aws_iam_policy.ci.arn
 }
 
 output "state_bucket" {
