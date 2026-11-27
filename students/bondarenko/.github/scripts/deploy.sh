@@ -35,10 +35,10 @@ if sudo docker container inspect study-board >/dev/null 2>&1; then
 fi
 sudo docker run -d --name study-board --restart unless-stopped -p 3000:3000 \
   --read-only --cap-drop ALL --security-opt no-new-privileges:true "$image"
-curl --retry 8 --retry-connrefused -fsS http://127.0.0.1:3000/healthz
+curl --retry 8 --retry-delay 1 --retry-all-errors --max-time 5 -fsS http://127.0.0.1:3000/healthz
 REMOTE
 
 url="http://$INSTANCE_IP:3000"
-curl --retry 8 --retry-connrefused --connect-timeout 8 -fsS "$url/healthz" | grep -Fx '{"status":"ok"}'
+curl --retry 8 --retry-delay 1 --retry-all-errors --max-time 8 -fsS "$url/healthz" | grep -Fx '{"status":"ok"}'
 curl --connect-timeout 8 -fsS "$url/" | grep -F '<h1>Навчальні дедлайни</h1>'
 printf 'Study board returned HTTP 200 on port 3000.\n' >> "$GITHUB_STEP_SUMMARY"

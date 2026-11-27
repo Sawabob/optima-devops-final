@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: study-board-${{ github.ref }}
   cancel-in-progress: false
@@ -29,7 +33,7 @@ jobs:
         run: |
           docker run -d --name study-board-ci -p 127.0.0.1:3000:3000 "study-board:$GITHUB_SHA"
           trap 'docker rm -f study-board-ci >/dev/null' EXIT
-          curl --retry 8 --retry-connrefused -fsS http://127.0.0.1:3000/healthz | grep -Fx '{"status":"ok"}'
+          curl --retry 8 --retry-delay 1 --retry-all-errors --max-time 5 -fsS http://127.0.0.1:3000/healthz | grep -Fx '{"status":"ok"}'
           curl -fsS http://127.0.0.1:3000/ | grep -F '<h1>Навчальні дедлайни</h1>'
       - name: Publish commit image to Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
