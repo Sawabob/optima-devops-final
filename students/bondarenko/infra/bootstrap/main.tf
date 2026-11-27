@@ -142,6 +142,14 @@ resource "aws_iam_policy" "ci" {
         }
       },
       {
+        Effect   = "Allow"
+        Action   = ["ec2:CreateTags"]
+        Resource = "${local.ec2_arn}:volume/*"
+        Condition = {
+          StringEquals = { "ec2:CreateAction" = "RunInstances" }
+        }
+      },
+      {
         Effect    = "Allow"
         Action    = ["ec2:CreateTags", "ec2:DeleteTags"]
         Resource  = ["${local.ec2_arn}:instance/*", "${local.ec2_arn}:security-group/*", "${local.ec2_arn}:key-pair/${local.project}"]
